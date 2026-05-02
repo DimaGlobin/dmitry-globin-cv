@@ -1,0 +1,251 @@
+% Editorial Tech CV — Dmitry Globin
+% Compile: xelatex main.tex (twice)
+
+\documentclass[10pt,a4paper]{article}
+
+%======================== GEOMETRY ========================
+\usepackage[margin=1.5cm]{geometry}
+
+%======================== FONTS ===========================
+\usepackage{fontspec}
+\IfFontExistsTF{Inter}{%
+  \setmainfont{Inter}[
+    UprightFont = * Regular,
+    BoldFont    = * SemiBold,
+    ItalicFont  = * Italic
+  ]
+}{%
+  \IfFontExistsTF{Lato}{%
+    \setmainfont{Lato}
+  }{%
+    \setmainfont{Source Sans Pro}
+  }
+}
+
+%======================== COLORS ==========================
+\usepackage{xcolor}
+\definecolor{accent}{HTML}{1E3A8A}   % deep blue (Tailwind blue-900)
+\definecolor{ink}{HTML}{1F2937}      % near-black body
+\definecolor{muted}{HTML}{6B7280}    % secondary gray
+\definecolor{hairline}{HTML}{E5E7EB} % divider gray
+
+%======================== HYPERREF ========================
+\usepackage[hidelinks]{hyperref}
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+
+%======================== SECTIONS ========================
+\usepackage{titlesec}
+\titleformat{\section}
+  {\fontsize{11}{13}\bfseries\color{accent}\addfontfeature{LetterSpace=8.0}}
+  {}{0em}
+  {\MakeUppercase}
+  [\vspace{2pt}{\color{hairline}\rule{\linewidth}{0.4pt}}]
+\titlespacing*{\section}{0pt}{6pt}{1pt}
+
+% allow some flexibility on line breaks to avoid overfull boxes in narrow columns
+\setlength{\emergencystretch}{3em}
+
+%======================== LISTS ===========================
+\usepackage{enumitem}
+\setlist[itemize]{
+  leftmargin=12pt,
+  topsep=0pt,
+  itemsep=0pt,
+  parsep=0pt,
+  partopsep=0pt,
+  label={\textcolor{accent}{\textbullet}}
+}
+
+%======================== ICONS / GRAPHICS ================
+\usepackage{fontawesome5}
+\usepackage{tikz}
+
+%======================== TWO-COLUMN ======================
+\usepackage{paracol}
+
+%======================== PAGE SETUP ======================
+\setlength{\parindent}{0pt}
+\color{ink}
+\pagestyle{empty}
+
+%======================== HELPERS =========================
+\newcommand{\monogram}{%
+  \tikz\node[
+    fill=accent,
+    rounded corners=4pt,
+    minimum size=60pt,
+    inner sep=0pt,
+    text=white,
+    font=\fontsize{28}{28}\bfseries\selectfont
+  ] {DG};%
+}
+
+% Experience role: \role{Title}{Subtitle}{Date}
+\newcommand{\role}[3]{%
+  \par\noindent
+  {\fontsize{10}{11}\bfseries\selectfont #1}\hfill{\fontsize{9}{10.5}\color{muted}\selectfont #3}\par
+  {\fontsize{9}{10.5}\color{muted}\selectfont #2}\par
+}
+
+% Sidebar skill category label
+\newcommand{\skillcat}[1]{%
+  \par\vspace{4pt}%
+  {\fontsize{9}{11}\bfseries\color{accent}\addfontfeature{LetterSpace=6.0}\selectfont\MakeUppercase{#1}}\par
+  \vspace{1pt}%
+}
+
+% Education entry: \edu{School}{Dates}{Degree}
+\newcommand{\edu}[3]{%
+  \par\noindent
+  {\fontsize{10}{12}\bfseries\selectfont #1}\hfill{\fontsize{10}{12}\color{muted}\selectfont #2}\par
+  {\fontsize{10}{12}\color{muted}\selectfont #3}\par
+  \vspace{4pt}
+}
+
+\begin{document}
+
+%========================================================
+% HEADER
+%========================================================
+\noindent
+\begin{minipage}[c]{60pt}\monogram\end{minipage}%
+\hspace{14pt}%
+\begin{minipage}[c]{0.5\textwidth}
+  {\fontsize{28}{32}\bfseries\selectfont Dmitry Globin}\\[2pt]
+  {\fontsize{13}{16}\color{muted}\selectfont Backend Engineer · Distributed Systems}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.32\textwidth}\raggedleft
+  \fontsize{9.5}{13}\selectfont
+  {\color{accent}\faEnvelope}\,\href{mailto:globindo@yandex.ru}{globindo@yandex.ru}\\
+  {\color{accent}\faGithub}\,\href{https://github.com/DimaGlobin}{github.com/DimaGlobin}\\
+  {\color{accent}\faPhone}\,+7\,960\,291\,7423\\
+  {\color{accent}\faMapMarker*}\,Moscow, Russia
+\end{minipage}
+
+\vspace{2pt}
+{\color{hairline}\rule{\linewidth}{0.4pt}}
+\vspace{1pt}
+
+%========================================================
+% PROFILE (the lede — no heading)
+%========================================================
+\noindent{\fontsize{9.5}{11.5}\selectfont
+Backend engineer building distributed systems in Go. Implemented the Raft consensus algorithm from scratch and shipped a Kafka-based audit platform with HA failover. Currently working on cloud VM orchestration at T-Bank and developing Landly --- an AI-powered SaaS for landing page generation. MIPT graduate looking for senior backend, distributed systems, or AI infrastructure roles.\par}
+
+%========================================================
+% TWO-COLUMN BODY
+%========================================================
+\columnratio{0.66}
+\setlength{\columnsep}{0.8cm}
+\begin{paracol}{2}
+
+%-------------------- LEFT: Selected Projects + Experience --------
+\section*{Selected Projects}
+\fontsize{9}{10.5}\selectfont
+
+\par\noindent
+{\fontsize{12}{14}\bfseries\selectfont Raft}\hspace{8pt}{\fontsize{9}{11}\selectfont\href{https://github.com/DimaGlobin/raft}{\nolinkurl{github.com/DimaGlobin/raft}}}\par
+Implemented the Raft consensus algorithm from scratch in Go to deeply understand distributed coordination. Handles leader election, log replication with quorum guarantees, and network partition recovery. The same algorithm powers etcd, Consul, and CockroachDB.\par
+{\fontsize{8}{10}\color{muted}\selectfont Stack: Go 1.23, Docker Compose, slog}\par
+\vspace{1pt}
+{\color{hairline}\rule{\linewidth}{0.4pt}}
+\vspace{1pt}
+
+\par\noindent
+{\fontsize{12}{14}\bfseries\selectfont Audit Service}\hspace{8pt}{\fontsize{9}{11}\selectfont\href{https://github.com/DimaGlobin/audit_service}{\nolinkurl{github.com/DimaGlobin/audit_service}}}\par
+Production-grade audit logging service for distributed systems. Supports both Active/Active load balancing and Active/Passive failover via Nginx, with full Prometheus + Grafana observability. Designed to mirror what fintech and healthcare compliance systems require.\par
+{\fontsize{8}{10}\color{muted}\selectfont Stack: Go, Kafka, PostgreSQL, Nginx, Prometheus, Grafana}\par
+\vspace{1pt}
+{\color{hairline}\rule{\linewidth}{0.4pt}}
+\vspace{1pt}
+
+\par\noindent
+{\fontsize{12}{14}\bfseries\selectfont Landly}\hspace{8pt}{\fontsize{9}{11}\selectfont\href{https://github.com/DimaGlobin/landly}{\nolinkurl{github.com/DimaGlobin/landly}}}\par
+AI-powered SaaS for landing page generation, built solo end-to-end. Supports multiple LLM providers behind a single abstraction (\mbox{OpenAI}, \mbox{Anthropic}). Atomic deploy pipeline with S3 manifests ensures users never see broken intermediate states. Production-deployed on Yandex Cloud.\par
+{\fontsize{8}{10}\color{muted}\selectfont Stack: Go 1.23, Next.js 14, PostgreSQL, Redis, S3, Yandex Cloud}
+
+\section*{Experience}
+\fontsize{8.5}{9.5}\selectfont
+
+\role{Golang Developer}{Middle · T-Bank, Moscow}{since Mar 2026}
+\begin{itemize}
+  \item Building VMaaS --- internal cloud platform for product teams to provision and manage VMs through a unified API
+  \item Working with OpenStack (Nova, Keystone, Neutron) for VM lifecycle and integrating LDAP/FreeIPA for centralized identity
+  \item Stack: Go, OpenStack, LDAP, FreeIPA, PostgreSQL, Docker
+\end{itemize}
+\vspace{6pt}
+
+\role{Golang Developer}{Middle · Cyberprotect, Moscow}{2024 --- 2026}
+\begin{itemize}
+  \item Designed and led development of the audit subsystem within the DLP product
+  \item Drove system design discussions for new backend modules and service boundaries
+  \item Implemented secure services with role-based authN/Z, JWT rotation, and centralized secrets management
+  \item Stack: Go, PostgreSQL, MSSQL, GitLab CI
+\end{itemize}
+\vspace{6pt}
+
+\role{Golang Developer}{Junior · Cyberprotect, Moscow}{2023 --- 2024}
+\begin{itemize}
+  \item Delivered DLP web console features end-to-end, from spec refinement with PMs to production release
+  \item Optimized heavy MSSQL/PostgreSQL queries with indexing and batching to improve response times on critical endpoints
+  \item Wrote unit and integration tests; raised reliability via CI checks and structured logging
+  \item Stack: Go, MSSQL, PostgreSQL, GitLab CI
+\end{itemize}
+\vspace{6pt}
+
+\role{Golang Developer}{Intern · Cyberprotect, Moscow}{Summer 2023}
+\begin{itemize}
+  \item Built REST API for large-file ingestion with chunked uploads, back-pressure, and retry logic; sustained throughput under load
+  \item Designed PostgreSQL schema and performant queries for the ingestion pipeline
+  \item Implemented JWT authentication and a permissions model from scratch
+  \item Stack: Go, REST, Docker, PostgreSQL
+\end{itemize}
+
+\switchcolumn
+
+%-------------------- RIGHT: Sidebar --------------------
+\raggedright
+
+\section*{Core Skills}
+
+\skillcat{Technical}
+Go, PostgreSQL, MSSQL, Redis, Kafka, Docker, Nginx, OpenStack, LDAP/FreeIPA, Prometheus, Grafana, GitHub Actions, GitLab CI, system design.
+
+\skillcat{Distributed}
+Raft consensus, Kafka consumer groups, HA load balancing.
+
+\skillcat{API \& Security}
+REST, OpenAPI 3.0, JWT rotation, RBAC.
+\vspace{4pt}
+{\color{hairline}\rule{\linewidth}{0.4pt}}
+\vspace{2pt}
+
+\section*{Education}
+
+\edu{MIPT (Moscow Institute of Physics and Technology)}{2021 --- 2025}{B.Eng., Radio Engineering and Computer Technology}
+\edu{MIPT (Moscow Institute of Physics and Technology)}{2025 --- present}{M.Sc., Radio Engineering and Computer Technology}
+\vspace{2pt}
+{\color{hairline}\rule{\linewidth}{0.4pt}}
+\vspace{2pt}
+
+\section*{Focus Areas}
+
+Distributed systems\par
+\vspace{2pt}
+Event-driven architectures\par
+\vspace{2pt}
+Cloud-native backend
+\vspace{4pt}
+{\color{hairline}\rule{\linewidth}{0.4pt}}
+\vspace{2pt}
+
+\section*{Languages}
+
+Russian --- native\par
+\vspace{2pt}
+English --- B2, comfortable with technical communication and code reviews
+
+\end{paracol}
+
+\end{document}
